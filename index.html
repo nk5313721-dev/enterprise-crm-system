@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enterprise CRM System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CRM Dashboard</p>
+        <h1>Enterprise CRM</h1>
+      </div>
+      <span class="status-pill">Local Data</span>
+    </header>
+
+    <main class="app-shell">
+      <section class="dashboard" aria-label="CRM overview">
+        <article class="stat-card">
+          <span>Total Leads</span>
+          <strong id="totalLeads">0</strong>
+        </article>
+
+        <article class="stat-card">
+          <span>Customers</span>
+          <strong id="customers">0</strong>
+        </article>
+
+        <article class="stat-card">
+          <span>Deals</span>
+          <strong id="deals">0</strong>
+        </article>
+      </section>
+
+      <section class="workspace" aria-label="CRM sections">
+        <div class="tab-bar" role="tablist" aria-label="CRM tabs">
+          <button id="leads-tab" class="tab-button active" type="button" data-tab="leads" aria-controls="leads-panel" aria-selected="true" role="tab">Leads</button>
+          <button id="customers-tab" class="tab-button" type="button" data-tab="customers" aria-controls="customers-panel" aria-selected="false" role="tab">Customers</button>
+          <button id="deals-tab" class="tab-button" type="button" data-tab="deals" aria-controls="deals-panel" aria-selected="false" role="tab">Deals</button>
+        </div>
+
+        <p id="message" class="message" role="status" aria-live="polite"></p>
+
+        <div class="panel-grid">
+          <section id="leads-panel" class="entity-panel active" data-entity="leads" role="tabpanel" aria-labelledby="leads-tab">
+            <div class="panel-header">
+              <h2 id="leadFormTitle">Add Lead</h2>
+            </div>
+
+            <form id="leadForm" class="crm-form" data-entity="leads">
+              <label>
+                <span>Name</span>
+                <input type="text" name="name" placeholder="Full name" required />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="name@company.com" required />
+              </label>
+              <label>
+                <span>Company</span>
+                <input type="text" name="company" placeholder="Company name" required />
+              </label>
+              <label>
+                <span>Stage</span>
+                <select name="stage">
+                  <option value="New">New</option>
+                  <option value="Contacted">Contacted</option>
+                  <option value="Qualified">Qualified</option>
+                  <option value="Won">Won</option>
+                </select>
+              </label>
+
+              <div class="form-actions">
+                <button class="primary-button" type="submit">Save Lead</button>
+                <button class="secondary-button hidden" type="button" id="cancelLeadEdit">Cancel</button>
+              </div>
+            </form>
+
+            <div class="table-card">
+              <div class="table-header">
+                <h3>Lead List</h3>
+                <div class="table-controls">
+                  <label>
+                    <span class="sr-only">Search leads</span>
+                    <input type="search" data-search="leads" placeholder="Search leads..." />
+                  </label>
+                  <label>
+                    <span class="sr-only">Filter leads by stage</span>
+                    <select data-filter="leads" aria-label="Filter leads by stage">
+                      <option value="">All stages</option>
+                      <option>New</option>
+                      <option>Contacted</option>
+                      <option>Qualified</option>
+                      <option>Won</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Company</th>
+                      <th>Stage</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leadTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section id="customers-panel" class="entity-panel" data-entity="customers" role="tabpanel" aria-labelledby="customers-tab" hidden>
+            <div class="panel-header">
+              <h2 id="customerFormTitle">Add Customer</h2>
+            </div>
+
+            <form id="customerForm" class="crm-form" data-entity="customers">
+              <label>
+                <span>Customer Name</span>
+                <input type="text" name="name" placeholder="Customer name" required />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="name@customer.com" required />
+              </label>
+              <label>
+                <span>Company</span>
+                <input type="text" name="company" placeholder="Company name" required />
+              </label>
+              <label>
+                <span>Phone</span>
+                <input type="tel" name="phone" placeholder="(555) 123-4567" required />
+              </label>
+              <label>
+                <span>Status</span>
+                <select name="status">
+                  <option value="Active">Active</option>
+                  <option value="Prospect">Prospect</option>
+                  <option value="VIP">VIP</option>
+                </select>
+              </label>
+              <label>
+                <span>Notes</span>
+                <input type="text" name="notes" placeholder="Customer notes" />
+              </label>
+
+              <div class="form-actions">
+                <button class="primary-button" type="submit">Save Customer</button>
+                <button class="secondary-button hidden" type="button" id="cancelCustomerEdit">Cancel</button>
+              </div>
+            </form>
+
+            <div class="table-card">
+              <div class="table-header">
+                <h3>Customer List</h3>
+                <div class="table-controls">
+                  <label>
+                    <span class="sr-only">Search customers</span>
+                    <input type="search" data-search="customers" placeholder="Search customers..." />
+                  </label>
+                  <label>
+                    <span class="sr-only">Filter customers by status</span>
+                    <select data-filter="customers" aria-label="Filter customers by status">
+                      <option value="">All statuses</option>
+                      <option>Active</option>
+                      <option>Prospect</option>
+                      <option>VIP</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Company</th>
+                      <th>Phone</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="customerTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section id="deals-panel" class="entity-panel" data-entity="deals" role="tabpanel" aria-labelledby="deals-tab" hidden>
+            <div class="panel-header">
+              <h2 id="dealFormTitle">Add Deal</h2>
+            </div>
+
+            <form id="dealForm" class="crm-form" data-entity="deals">
+              <label>
+                <span>Deal Name</span>
+                <input type="text" name="name" placeholder="Enterprise renewal" required />
+              </label>
+              <label>
+                <span>Customer</span>
+                <input type="text" name="customer" placeholder="Customer name" required />
+              </label>
+              <label>
+                <span>Amount</span>
+                <input type="number" name="amount" min="0" step="0.01" placeholder="15000" required />
+              </label>
+              <label>
+                <span>Close Date</span>
+                <input type="date" name="closeDate" required />
+              </label>
+              <label>
+                <span>Status</span>
+                <select name="stage">
+                  <option value="Qualified">Qualified</option>
+                  <option value="Proposal">Proposal</option>
+                  <option value="Negotiation">Negotiation</option>
+                  <option value="Closed Won">Closed Won</option>
+                  <option value="Closed Lost">Closed Lost</option>
+                </select>
+              </label>
+              <label>
+                <span>Owner</span>
+                <input type="text" name="owner" placeholder="Account owner" />
+              </label>
+
+              <div class="form-actions">
+                <button class="primary-button" type="submit">Save Deal</button>
+                <button class="secondary-button hidden" type="button" id="cancelDealEdit">Cancel</button>
+              </div>
+            </form>
+
+            <div class="table-card">
+              <div class="table-header">
+                <h3>Deal List</h3>
+                <div class="table-controls">
+                  <label>
+                    <span class="sr-only">Search deals</span>
+                    <input type="search" data-search="deals" placeholder="Search deals..." />
+                  </label>
+                  <label>
+                    <span class="sr-only">Filter deals by status</span>
+                    <select data-filter="deals" aria-label="Filter deals by status">
+                      <option value="">All statuses</option>
+                      <option>Qualified</option>
+                      <option>Proposal</option>
+                      <option>Negotiation</option>
+                      <option>Closed Won</option>
+                      <option>Closed Lost</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Deal</th>
+                      <th>Customer</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Close Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dealTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
